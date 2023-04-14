@@ -10,5 +10,5 @@ function getClock() {
   // 아니 함수 뒤에 괄호를 안 붙이는 건 뭔...
 }
 
-getClock();
-setInterval(getClock, 1000);
+getClock(); // setInterval로 불러오지만 처음 1초를 표시하기 위함
+setInterval(getClock, 1000); // 1000ms 단위로 getClock 호출

@@ -4,8 +4,8 @@ const greeting = document.querySelector("#greeting");
 
 const HIDDEN_CLASSNAME = "hidden";
 const USERNAME_KEY = "username";
-// 일반적으로 string만 포함된 변수는 대문자로 표기
-// string을 저장하고 싶을 때 사용 (중복 사용 시 오타 방지와 에러 잡기 위함)
+/* 일반적으로 string만 포함된 변수는 대문자로 표기
+ * string을 저장하고 싶을 때 사용 (중복 사용 시 오타 방지와 에러 잡기 위함) */
 
 function onLoginSubmit(event) {
   event.preventDefault();
