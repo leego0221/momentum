@@ -2,44 +2,58 @@ const toDoForm = document.getElementById("todo-form");
 const toDoInput = document.querySelector("#todo-form input");
 const toDoList = document.getElementById("todo-list");
 
-const toDos = []; // localStorage에 저장될 리스트를 배열에 넣기 위함
+const TODOS_KEY = "todos";
 
-/** 리스트를 localStorage에 저장 */
+let toDos = []; // 배열 수정이 중간중간 필요해서 const에서 let으로 수정
+
+/** 배열을 localStorage 내에 string 자체로 저장 */
 function saveToDos() {
-  localStorage.setItem("todos", JSON.stringify(toDos));
-  /* JSON.stringify()로 일단 배열 자체를 string으로 전환.
-   * 원래 localStorage에 들어가는 게 string만 됨, 따라서 리스트 내용을 단순히 ","로 연결해놓음.
-   * 근데 저렇게 해놓으면 배열의 속성을 잃어버리니까 원하는 결과가 아님.
-   * 아직까지 뭔가 이해가 안 되는 게 있는데 다음 강의를 보면 풀릴지도? */
+  localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
 }
 
-/** event 내에 target이라는 요소를 통해 무엇이 클릭됐는지 확인 가능,
- * 이후 parentElement로 상위 요소인 <li>를 가리킬 수 있음 */
 function deleteToDo(event) {
   const li = event.target.parentElement;
-  li.remove();
+  li.remove(); // 이를 실행해도 밑에서 li.id 접근 가능(화면에서만 지우는 것)
+  toDos = toDos.filter((toDo) => toDo.id !== parseInt(li.id)); // id값 비교 후 같으면 제외함
+  saveToDos(); // save를 해줘야 localStorage에 반영이 됨
 }
+/* [].filter(filterFunc): 배열 내에 요소를 확인해서
+ * return값이 true면 그대로 유지, false면 제외한 뒤 새로운 배열을 만드는 함수 */
+/* arrow function: 익명 함수의 형태 중 하나 */
 
-/** newTodo 표시하는 함수 */
 function paintToDo(newTodo) {
-  const li = document.createElement("li"); // <li> 만들고
-  const span = document.createElement("span"); // <span> 만들고
-  span.innerText = newTodo; // 갖고 온 리스트를 span에 넣음.
-  const button = document.createElement("button"); // <button> 만들고
-  button.innerText = "❌"; // button에 x 넣음.
-  button.addEventListener("click", deleteToDo); // click 이벤트 감지 시(버튼 누르면)
-  li.appendChild(span); // <li><span></span></li>
-  li.appendChild(button); // <li><button></button></li>
-  toDoList.appendChild(li); // <ul id="todo-list"><li>...</li></ul>
+  const li = document.createElement("li");
+  li.id = newTodo.id;
+  const span = document.createElement("span");
+  span.innerText = newTodo.text;
+  const button = document.createElement("button");
+  button.innerText = "❌";
+  button.addEventListener("click", deleteToDo);
+  li.appendChild(span);
+  li.appendChild(button);
+  toDoList.appendChild(li);
 }
 
-function handleToDoSubment(event) {
-  event.preventDefault(); // 기존 이벤트 막아버리고
-  const newTodo = toDoInput.value; // newTodo에 리스트 하나 대입.
-  toDoInput.value = ""; // 화면에 보이는 값을 비운 뒤
-  toDos.push(newTodo); // array에 newTodo 하나 push함.
-  paintToDo(newTodo);
+function handleToDoSubmit(event) {
+  event.preventDefault();
+  const newTodo = toDoInput.value;
+  toDoInput.value = "";
+  const newTodoObj = {
+    text: newTodo,
+    id: Date.now(),
+  }; // delete 기능을 위해 id를 새로 추가함으로써 object로 수정
+  toDos.push(newTodoObj); // object를 넣고
+  paintToDo(newTodoObj); // object를 넣음
   saveToDos();
 }
 
-toDoForm.addEventListener("submit", handleToDoSubment); // submit 이벤트 감지 시
+toDoForm.addEventListener("submit", handleToDoSubmit);
+
+const savedToDos = localStorage.getItem(TODOS_KEY); // 리스트 불러옴
+
+if (savedToDos !== null) {
+  // 기존 작성된 내용이 있으면
+  const parsedToDos = JSON.parse(savedToDos); // localStorage 내 string을 배열로 바꾼 뒤 저장
+  toDos = parsedToDos; // 새로고침 후 덮어써짐 방지와 기존 데이터 유지를 위함
+  parsedToDos.forEach(paintToDo); // 함수형 프로그래밍 그런 건가
+}
