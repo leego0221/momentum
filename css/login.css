@@ -1,0 +1,19 @@
+#header {
+  margin-top: 30vh;
+  margin-bottom: 4vh;
+  font-size: 70px;
+}
+
+#clock.log-out {
+  margin-top: 4vh;
+  font-size: 40px;
+}
+
+#login-form input {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 65px;
+  border-bottom: 3px solid white;
+  text-align: center;
+  color: white;
+}

@@ -1,3 +1,29 @@
+@import "reset.css";
+@import "login.css";
+@import "main.css";
+
+body {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  font-family: -apple-system;
+  overflow: hidden; /* 스크롤 막음 */
+}
+
 .hidden {
   display: none;
+  visibility: hidden; /* quote 가리기 위함 */
+}
+
+img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
 }
