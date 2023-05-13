@@ -14,7 +14,7 @@ function saveToDos() {
 function checkToDo(event) {
   const contentSpan = event.target.parentElement.children[0];
   contentSpan.classList.toggle("check");
-}
+} // 왜 gh-pages에 반영이 안 되지
 
 function deleteToDo(event) {
   const li = event.target.parentElement;
