@@ -11,6 +11,11 @@ function saveToDos() {
   localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
 }
 
+function checkToDo(event) {
+  const contentSpan = event.target.parentElement.children[0];
+  contentSpan.classList.toggle("check");
+}
+
 function deleteToDo(event) {
   const li = event.target.parentElement;
   li.remove(); // 이를 실행해도 밑에서 li.id 접근 가능(화면에서만 지우는 것)
@@ -26,11 +31,18 @@ function paintToDo(newTodo) {
   li.id = newTodo.id;
   const span = document.createElement("span");
   span.innerText = newTodo.text;
-  const button = document.createElement("button");
-  button.innerText = "❌";
-  button.addEventListener("click", deleteToDo);
+  const checkButton = document.createElement("button");
+  checkButton.innerText = "✅";
+  checkButton.id = "check-btn";
+  const deleteButton = document.createElement("button");
+  deleteButton.innerText = "❎";
+  deleteButton.id = "delete-btn";
+  checkButton.addEventListener("click", checkToDo);
+  deleteButton.addEventListener("click", deleteToDo);
+
   li.appendChild(span);
-  li.appendChild(button);
+  li.appendChild(checkButton);
+  li.appendChild(deleteButton);
   toDoList.appendChild(li);
 }
 

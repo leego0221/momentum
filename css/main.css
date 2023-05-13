@@ -33,10 +33,22 @@
 #todo-list li {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px;
   font-size: 20px;
 }
+
+#todo-list li span {
+  width: 100%;
+}
+
+.check {
+  text-decoration: line-through;
+  color: grey;
+}
+
 #todo-list li button {
+  font-size: 20px;
   border: none;
   background-color: rgba(0, 0, 0, 0);
 }
